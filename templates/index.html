@@ -1,6 +1,64 @@
-<html>
-	<body>
-		<p> Hello,World! </p>
-		<p> TEST </p>
-	</body>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Sheltr:atx</title>
+        <link href="../static/css/style.css" rel="stylesheet" />
+        <meta name="description" content="A quick and accurate guide for persons in need to closest available and open resources around Austin, TX.">
+        <meta name="keywords" content="austin, texas, tx, atx, sheltr, help, homeless, resource" />
+        <meta name="author" content="Rishi Bajekal, Efe Karakus, Joe Merante, Nikhil Tibrewal, Susan Wang">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+        <script src="../static/js/submit.js" type="text/javascript"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+        <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+    </head>
+    <body>
+    
+        <header>
+            <div class="top-row">
+                <div class="menu">
+                    <ul>
+                        <li><a href="/test">Test</a></li>
+                        <li><a href="/test">Test</a></li>
+                        <li><a href="/test">Test</a></li>
+                    </ul>
+                </div>
+            </div>
+            <h1><a href="/test">Sheltr:atx</a></h1>
+        </header>
+        
+        <div class="container">
+            <form id="LocationForm">
+                <input class="addr text" type="text" placeholder="Please type your address here..." />
+                <div class="buttons">
+                    <button class="submit" id="searchBTN">Submit</button>
+                    <ul class="form-controls">
+                        <li>
+                            <input type="checkbox" value="bed" checked="true" id="checkbox-bed"/>
+                            <label id="checkbox-label-bed" for="checkbox-bed">Bed</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="food" checked="true" id="checkbox-food"/>
+                            <label id="checkbox-label-food" for="checkbox-food">Food</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="medical" checked="true" id="checkbox-medical"/>
+                            <label id="checkbox-label-medical" for="checkbox-medical">Medical</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="mental-health" checked="true" id="checkbox-shelter"/>
+                            <label id="checkbox-label-shelter" for="checkbox-shelter">Mental Health</label>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+            <div class="map-container"><a name="map"></a>
+                <div id="map">MAP GOES HERE</div>
+            </div>
+        </div>
+    </body>
+
 </html>
