@@ -1,0 +1,424 @@
+html {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font: normal 100%/1.28571429 Helvetica, Arial, sans-serif;
+  color: #313131;
+  font-size: 14px;
+  line-height: 20px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+/* https://github.com/paulirish/html5-boilerplate/blob/362d0b7/css/style.css#L35 */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+a {
+  color: #188db8;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #333;
+}
+
+article {
+  width: 85%;  
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+header {
+  margin: 0 auto;
+  width: 100%;
+}
+
+header h1 {
+  text-align: center;  
+}
+
+header h1 a {
+  background: url('../img/sheltr-atx.png') no-repeat 0 0;  
+  display: block;
+  width: 315px;
+  height: 110px;
+  margin: 0 auto;
+  text-indent: -5000px;
+  margin-bottom: 30px;
+}
+
+header .top-row {
+  width: 100%;
+  background-color: #666;
+}
+
+.menu {
+  background-color: #666;
+  height: 30px;
+  width: 960px;
+  margin: 0 auto;
+}
+
+.menu ul {
+  list-style: none outside none;
+  overflow: auto;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.menu li a {
+  line-height: 30px;
+  font-size: 1em;
+  float: right;
+  margin: 0 0 0 35px;
+  color: white;
+}
+
+footer {
+  margin: 20px auto;
+  width: 960px;
+}
+
+footer p {
+  float: right;
+  margin: 0;
+}
+
+.container {
+  margin: 0 auto;
+  width: 960px;
+}
+
+.edit {
+  float: right;
+}
+
+/* HOME */
+ul.locations {
+  display: none;
+  list-style: none;
+  margin: 0 auto;  
+  margin-bottom: 20px;
+  padding: 0;
+  width: 75%;
+}
+
+ul.locations.visible {
+  display: block;
+}
+
+ul.locations li {
+  border-top: 1px solid #ccc;
+  padding: 5px 0;
+  text-align: center;
+}
+
+ul.locations li h2 {
+  font-size: 1.5em;  
+  margin: 0;
+}
+
+ul.locations li p {
+  margin: 0;
+}
+
+form {
+  width: 85%;  
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+form input.text {
+  margin: 0 auto;
+  margin-bottom: 5px;
+  width: 75%;  
+  border: 1px solid #bbb;
+  font-size: 1.8em;
+  padding: .5em .25em;
+  text-align: center;
+  display: block;
+  font-family: inherit;
+  color: #000;
+}
+
+form button.submit {
+  font-size: 1em;
+  padding: .5em .25em;
+  font-family: inherit;
+  display: inline;
+  margin: 0 auto;
+  width: 25%;
+  height: 40px;
+}
+
+form button.submit:hover, form checkbox {
+  cursor: pointer;
+}
+
+form #checkbox-label-food {
+  margin-right: .5em;
+  color: #72ac26;
+}
+
+form #checkbox-label-shelter {
+  margin-right: .5em;
+  color: #188db8;
+}
+
+form #checkbox-label-medical {
+margin-right: .5em;
+color: #7E2217;
+}
+
+form #checkbox-label-food:hover, #checkbox-label-shelter:hover {
+  cursor: pointer;
+}
+
+.buttons {
+  font-size: 1.4em;
+  width: 75%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.buttons ul {
+  list-style-type: none;  
+}
+
+.buttons ul li {
+  display: inline-block;
+}
+
+#userMsg {
+  display:none;
+  width: 65%;  
+  margin: 0 auto 10px;
+  background: #eceaea;
+  border: 1px solid #bbb;
+  color: gray;
+  font-size: 1.2em;
+  text-align: center;
+  padding: .5em .25em;
+}
+
+#map {
+  width: 960px;
+  height: 800px;
+  margin: 0 auto;
+}
+
+#logos {
+  text-align: center;  
+}
+
+#logos img {
+  margin: 50px 20px 20px 20px;
+}
+
+/* LOCATION DETAILS */
+.location {
+  width: 700px;
+  margin: 0 auto;
+}
+
+.location-header h1 {
+  font-weight: normal;
+}
+
+.location-header h1 span.subtitle {
+  color: #505050;  
+  display: block;
+  font-size: 14px;
+}
+
+.info-container {
+  width: 700px;
+  border: 1px solid #d4d4d4;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #f3f3f5;
+  margin-bottom: 15px;
+}
+
+.location-map-container {
+  height: 400px;
+  width: 680px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #d4d4d4;
+  margin-bottom: 15px;
+}
+
+table {
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+table td, table th {
+  padding: 4px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table th {
+  width: 20%;  
+}
+
+table tr:nth-child(odd) {
+  background-color: #f3f3f5;
+}
+
+table tr:nth-child(even) {
+  background-color: #fff;
+}
+
+.edit-location form {
+  width: 700px;  
+}
+
+textarea, input[type="text"] {
+  width: 300px;
+  font-size: 12px;
+}
+
+select option {
+  font-size: 12px;  
+}
+
+textarea {
+  height: 50px;
+}
+
+#location-map {
+  height: 100%;
+  width: 100%;
+}
+
+.settings textarea {
+  height: 200px;
+  width: 500px;
+}
+
+@media screen and (max-width: 480px) {
+
+  header {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  header .top-row {
+    width: 100%;
+  }
+
+  .menu {
+    width: 100%;
+  }
+
+  .menu ul {
+    margin: 0 auto;
+  }
+
+  header h1 {
+    margin-bottom: 0;
+  }
+
+  h1 a {
+    width: 200px;
+    height: 70px;
+    max-width: 100%;
+    background-size: contain;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  footer {
+    width: 100%;
+  }
+
+  form {
+    margin-top: -20px; /*because we can't seem to change the h1 margin-bottom for mobile*/
+    margin-bottom: 5%;
+    width: 95%;
+  }
+
+  form input.text {
+    font-size: 1.6em;
+    width: 95%;
+    padding: .15em 0 .15em .15em;
+  }
+
+  form button.submit {
+    width: 45%;
+    padding: 0;
+    font-size: 1.2em;
+    padding: 0;
+  }
+
+  form #checkbox-label-food {
+    font-size: 1.2em;
+    margin-right: 0em;
+  }
+
+  form #checkbox-label-shelter {
+    font-size: 1.2em;
+    margin-right: 0em;
+  }
+
+  .buttons {
+    font-size: 1em;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  ul.locations {
+    width: 90%;
+    margin-left:5%;
+  }
+
+  .map-container {
+    width: 90%;
+    height: 95%;
+    position: absolute;
+    left: 5%;
+  }
+
+  #map {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+
+  }
+
+  .container{
+    width: 100%;
+  }
+
+  /* admin */
+  .location {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .info-container {
+    width: 100%;
+  }
+
+  .location-map-container {
+    height: 95%;
+    width: 95%;
+    position: absolute;
+  }
+
+  #location-map {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+  }
+}
