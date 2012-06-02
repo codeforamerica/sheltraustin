@@ -12,7 +12,8 @@ define("port", default=8888, help="run on the given port", type=int)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", SearchHandler)
+            (r"/", DefaultHandler),
+            (r"/*", SearchHandler)
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
@@ -22,6 +23,12 @@ class Application(tornado.web.Application):
             autoescape="xhtml_escape",
         )
         tornado.web.Application.__init__(self, handlers, **settings)
+
+
+class DefaultHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render('index.html')
 
 def main():
     tornado.options.parse_command_line()
