@@ -1,8 +1,12 @@
+import os.path
+import os
+import tornado.escape
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-import os.path
+import unicodedata
+
 
 from SearchHandler import SearchHandler
 from AutocompleteHandler import AutocompleteHandler
@@ -14,7 +18,7 @@ define("port", default=8888, help="run on the given port", type=int)
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", DefaultHandler),
+            (r"/", MainHandler),
             (r"/find*",AutocompleteHandler),
             (r"/search*", SearchHandler),
             (r"/info*", InfoHandler)
@@ -22,22 +26,26 @@ class Application(tornado.web.Application):
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            handler_path=os.path.join(os.path.dirname(__file__), "handlers"),
+            # handler_path=os.path.join(os.path.dirname(__file__), "handlers"),
             xsrf_cookies=True,
             autoescape="xhtml_escape",
         )
         tornado.web.Application.__init__(self, handlers, **settings)
 
 
-class DefaultHandler(tornado.web.RequestHandler):
-    @tornado.web.asynchronous
+class MainHandler(tornado.web.RequestHandler):
+    # @tornado.web.asynchronous
     def get(self):
         self.render('index.html')
 
 def main():
     tornado.options.parse_command_line()
-    app = Application()
-    app.listen(options.port)
+    #app = Application()
+    #app.listen(options.port)
+    http_server = tornado.httpserver.HTTPServer(Application())
+    http_server.listen(os.environ.get("PORT", 8888))
+
+    #start the serever
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
