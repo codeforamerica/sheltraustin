@@ -142,13 +142,13 @@ function findMarkerRoute(startData, endData, marker) {
 	  var address = endData.address; 
 	  var name = endData.name; 
 	  var properties = endData.properties; 
-	  var services = [["food", properties.food],
-          ["medical facility", properties.med_facility],
-          ["medical service", properties.med_service],
-          ["mental health service", properties.mental_health], 
-          ["private", properties.private ], 
-          ["shelter", properties.shelter ], 
-          ["substance abuse aid", properties.subst_abuse_service]
+	  var services = [["Food", properties.food],
+          ["Medical Facility", properties.med_facility],
+          ["Medical Service", properties.med_service],
+          ["Mental Health Service", properties.mental_health], 
+          ["Private", properties.private ], 
+          ["Shelter", properties.shelter ], 
+          ["Substance Abuse Aid", properties.subst_abuse_service]
        ]; 
         var str = ''; var dict; var i;   
 	  
@@ -167,11 +167,12 @@ function findMarkerRoute(startData, endData, marker) {
         }
 
 
-      var myHtml =  'Place: '+name+' <br/>' + 
-                    'Address: '+ address +' <br/>' + 
-                    'Services: '+str +   '<br/>' + 
-                    'Phone:  <input type=\"text\" id=\"phone-bar\" name=\"phone\" placeholder=\"phone number...\" style=\"width:100px\"/><br/>' + 
-                    'e-mail: <input type=\"text\" id=\"email-bar\" name=\"email\" placeholder=\"e-mail address...\" style=\"width:100px\"/><br/>' + 
+      var myHtml =  '<b>Place</b>: '+name+' <br/>' + 
+                    '<b>Address</b>: '+ address +' <br/>' + 
+                    '<b>Services</b>: '+str +   '<br/>' + 
+                    '<b>Enter your contact information to get directions:</b><br/>' +
+                    '<b>Phone</b>:  <input type=\"text\" id=\"phone-bar\" name=\"phone\" placeholder=\"Phone Number...\" style=\"width:100px\"/><br/>' + 
+                    '<b>E-mail</b>: <input type=\"text\" id=\"email-bar\" name=\"email\" placeholder=\"E-mail address...\" style=\"width:100px\"/><br/>' + 
                     '<button type=\"button\" onclick=\"sendPersonalInfo()\">Send</button>';
       var infowindow = new google.maps.InfoWindow({content: myHtml});
       infowindow.open(map,marker)
