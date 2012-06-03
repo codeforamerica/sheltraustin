@@ -21,7 +21,7 @@ echo "twilio" >> requirements.txt
 
 # set up the Procfile
 touch Procfile
-echo "web: python main.py" >> Procfile
+echo "web: python server.py" >> Procfile
 
 # --------------------------
 
