@@ -9,7 +9,7 @@ $(document).ready(function() {
 			type: "GET",
 			data: json(),
 			success: function(data) {
-				console.log(data);
+				placeMarkers(data['result']);
 				listDisplay(data);
 			}
 		});
@@ -37,7 +37,6 @@ $(document).ready(function() {
 						content += "<li class=\"autocomplete\" onclick=\"replaceAddress(\'"+data['addresses'][index]+"\')\">"+data['addresses'][index]+"</li>";
 					}
 					content += "</ol>";
-					console.log(content);
 					autocomplete.append(content);
 				}
 			});

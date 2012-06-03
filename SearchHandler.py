@@ -32,7 +32,6 @@ class SearchHandler(tornado.web.RequestHandler):
 
 
 		output = QueryHandler.get_map(data)
-
 		self.write(output)
 		self.flush()
 		self.finish()

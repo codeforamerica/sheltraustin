@@ -1,4 +1,5 @@
 import simplejson, urllib
+from MapHandler import MapHandler
 
 class QueryHandler(object):
 
@@ -8,10 +9,8 @@ class QueryHandler(object):
 	@classmethod
 	def get_map(self, json):
 		"""Return the Google Maps API JSON Object."""
-		print json
-		map_json = {
-			'awesome': 'sauce'
-		}
+		mp = MapHandler()
+		map_json = mp.getAllServiceProviders(json)
 		return map_json
 
 	@classmethod
