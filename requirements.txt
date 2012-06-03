@@ -1,0 +1,4 @@
+Tornado==2.1.1
+simplejson
+googlemaps
+twilio
