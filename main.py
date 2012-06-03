@@ -36,12 +36,12 @@ class Application(tornado.web.Application):
 class MainHandler(tornado.web.RequestHandler):
     # @tornado.web.asynchronous
     def get(self):
-        self.render('main.html')
+        self.render('index.html')
 
 def main():
     tornado.options.parse_command_line()
-    #app = Application()
-    #app.listen(options.port)
+    app = Application()
+    app.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(os.environ.get("PORT", 5000))
