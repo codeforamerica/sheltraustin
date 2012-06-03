@@ -12,7 +12,7 @@ class EmailHandler():
 
 	def sendEmail(self, recipient, msgbody):
 		usrnme = "sheltraustin@gmail.com"
-		pswd = "rhok2012"
+		pswd = (os.environ.get("SHELTR_PASS"))
 
 		msg = "Directions for you:   " + msgbody
 

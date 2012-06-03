@@ -5,7 +5,7 @@ from EmailHandler import EmailHandler
 
 class QueryHandler(object):
 
-	PLACES_API_KEY = 'AIzaSyBJkj3-NuYVzkQ1b3rhSAfLflcF96R8EFQ'
+	PLACES_API_KEY = (os.environ.get("GOOGLE_KEY"))
 
 
 	@classmethod

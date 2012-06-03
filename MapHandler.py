@@ -144,7 +144,7 @@ class MapHandler():
 
 	def getOwnLocation(self, addr):
 
-		gmaps = GoogleMaps("AIzaSyBJkj3-NuYVzkQ1b3rhSAfLflcF96R8EFQ")#"AIzaSyDtIpFT7ZCBkJL6wPdwIHRLUqLO-3BWr0E")
+		gmaps = GoogleMaps(os.environ.get("GOOGLE_KEY"))
 
 		try:
 			lat, lng = gmaps.address_to_latlng(addr)
