@@ -161,22 +161,47 @@ form button.submit:hover, form checkbox {
   cursor: pointer;
 }
 
-form #checkbox-label-food {
+form #checkbox-label-bed {
   margin-right: .5em;
-  color: #72ac26;
+  color: #2B3352;
 }
 
-form #checkbox-label-shelter {
+form #checkbox-label-food {
   margin-right: .5em;
-  color: #188db8;
+  color: #2B3352;
 }
 
 form #checkbox-label-medical {
-margin-right: .5em;
-color: #7E2217;
+  margin-right: .5em;
+  color: #2B3352;
 }
 
-form #checkbox-label-food:hover, #checkbox-label-shelter:hover {
+form #checkbox-label-mental {
+  margin-right: .5em;
+  color: #2B3352;
+}
+
+form #checkbox-label-substance {
+  margin-right: .5em;
+  color: #2B3352;
+}
+
+form #radio-label-walk {
+  margin-right: .5em;
+  color: #2B3352;
+}
+
+form #radio-label-bus {
+  margin-right: .5em;
+  color: #2B3352;
+}
+
+form #radio-label-car {
+  margin-right: .5em;
+  color: #2B3352;
+}
+
+form #checkbox-label-bed:hover, form #checkbox-label-food:hover, form #checkbox-label-medical:hover, form #checkbox-label-mental:hover, form #checkbox-label-substance:hover, form #radio-label-walk:hover, form #radio-label-bus:hover, form #radio-label-car:hover {
   cursor: pointer;
 }
 
@@ -244,6 +269,20 @@ form #checkbox-label-food:hover, #checkbox-label-shelter:hover {
   padding: 10px;
   background-color: #f3f3f5;
   margin-bottom: 15px;
+}
+
+div.autocomplete {
+  width: 700px;
+  margin: 0 auto;
+  font: normal 130% Helvetica, Arial, sans-serif;
+}
+
+ol.autocomplete {
+  list-style: none;
+}
+
+li.autocomplete:hover {
+  background: #8dc73f;
 }
 
 .location-map-container {
