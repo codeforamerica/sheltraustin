@@ -15,6 +15,9 @@ git init
 # set up the pip requirements
 touch requirements.txt
 echo "Tornado==2.1.1" >> requirements.txt
+echo "simplejson" >> requirements.txt
+echo "googlemaps" >> requirements.txt
+echo "twilio" >> requirements.txt
 
 # set up the Procfile
 touch Procfile
