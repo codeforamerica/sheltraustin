@@ -10,8 +10,8 @@
 
 var df = '../static/img/'; 
 var DICT = {"medical facility": df + "mf.jpg", 
-	    "medical service": df + "ms.png", 
-	    "mental health service": df + "mh.png", 
+	    "medical service": df + "mh.png", 
+	    "mental health service": df + "ms.png", 
 	    "private": df + "private.gif", 
 	    "shelter": df + "shelter.png",
 	    "food": df + "food.png", 
