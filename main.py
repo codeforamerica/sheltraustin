@@ -13,7 +13,7 @@ from AutocompleteHandler import AutocompleteHandler
 from InfoHandler import InfoHandler
 from tornado.options import define, options
 
-define("port", default=5000, help="run on the given port", type=int)
+define("port", default=58445, help="run on the given port", type=int)
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -44,7 +44,7 @@ def main():
     app.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
     http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(os.environ.get("PORT", 5000))
+    http_server.listen(os.environ.get("PORT", 58445))
 
 if __name__ == "__main__":
     main()
