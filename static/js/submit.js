@@ -102,8 +102,28 @@ function replaceAddress(address) {
 }
 
 function sendPersonalInfo() {
+
+	var directions = '';
+
+	if (directionResults==null) {
+		directions = 'Could not find the addresses';
+	} else {
+		for (index in directionResults['routes']) {
+			route = directionResults['routes'][index];
+			for (j in route['legs']) {
+				leg = route['legs'][j];
+				var start_address = leg['start_address'];
+				var end_address = leg['end_address'];
+				directions += 'FROM ' + start_address + ' TO ' + end_address + '\n';
+			}
+		}
+	}
+
+
 	var phonenum = $('#phone-bar').attr('value');
 	var emailaddr = $('#email-bar').attr('value');
+
+
 
 	$.ajax({
 		url: '/info',
@@ -112,20 +132,20 @@ function sendPersonalInfo() {
 		data : {
 			'email': emailaddr,
 			'phone': phonenum,
-			'direction': '3801 tower view court'
+			'direction': directions
 		},
 		success: function(data) {
 			var phoneError = data['phone'];
 			var emailError = data['email'];
-			console.log(phoneError);
-			console.log(emailError);
 
 			if (phoneError['error'] != undefined) {
 				alert('Could not send information to phone with error: ' + phoneError['error']);
 			}
-
-			if (emailError['error'] != undefined) {
+			else if (emailError['error'] != undefined) {
 				alert('Could not send information to email with error: ' + emailError['error']);
+			}
+			else {
+				lastInfoWindow.close();
 			}
 		}
 	})

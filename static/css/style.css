@@ -65,6 +65,16 @@ header .top-row {
   margin: 0 auto;
 }
 
+.menu span {
+  background: url('../img/googleNotWhite.png') no-repeat 0 0;  
+  float: left;
+  display: block;
+  width: 104px;
+  height: 16px;
+  margin: 8px auto 0px 0px;
+  text-indent: -5000px;
+}
+
 .menu ul {
   list-style: none outside none;
   overflow: auto;

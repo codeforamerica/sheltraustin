@@ -12,15 +12,28 @@ class InfoHandler(tornado.web.RequestHandler):
 			self.render('index.html')
 			return
 
-		email = self.request.arguments['email'][0]
-		phone = self.request.arguments['phone'][0]
-		direction = self.request.arguments['direction'][0]
+		email = ''
+		phone = ''
+		direction = ''
 
+		if 'email' in self.request.arguments:
+			email = self.request.arguments['email'][0]
+
+		if 'phone' in self.request.arguments:
+			phone = self.request.arguments['phone'][0]
+
+		if 'direction' in self.request.arguments:
+			direction = self.request.arguments['direction'][0]
+
+		print email
 		email_results = {}
 		phone_results = {}
 
 		if not phone=='':
 			phone_results = QueryHandler.get_sms(phone, direction)
+
+		if not email=='':
+			email_results = QueryHandler.get_email(email, direction)
 
 
 		output = {
