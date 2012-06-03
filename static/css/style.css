@@ -65,8 +65,7 @@ header .top-row {
   margin: 0 auto;
 }
 
-.menu span {
-  background: url('../img/googleNotWhite.png') no-repeat 0 0;  
+.menu span {  
   float: left;
   display: block;
   width: 104px;
