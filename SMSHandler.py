@@ -2,12 +2,15 @@ from twilio.rest import TwilioRestClient
 from twilio.rest import *
 from twilio import TwilioRestException
 import sys
+import os
+
+
 
 class SMSHandler():
 
-	__acc_sid = "ACdb07be7ec055480abc23a729c943a344"
-	__auth_token = "8183fe8d7683f9954d3a24fa656be44d"
-	__from_number = "+14155992671"
+	__acc_sid = (os.environ.get("TWILIO_ID"))
+	__auth_token = (os.environ.get("TWILIO_KEY"))
+	__from_number = "+15128618876"
 
 
 	### recipient phone number is a string with the country code in front. e.g. +12345678900 for America
