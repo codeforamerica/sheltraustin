@@ -26,7 +26,7 @@ class Application(tornado.web.Application):
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            handler_path=os.path.join(os.path.dirname(__file__), "handlers"),
+            # handler_path=os.path.join(os.path.dirname(__file__), "handlers"),
             xsrf_cookies=True,
             autoescape="xhtml_escape",
         )
@@ -34,14 +34,14 @@ class Application(tornado.web.Application):
 
 
 class MainHandler(tornado.web.RequestHandler):
-    @tornado.web.asynchronous
+    # @tornado.web.asynchronous
     def get(self):
-        self.render('index.html')
+        self.render('main.html')
 
 def main():
     tornado.options.parse_command_line()
-    app = Application()
-    app.listen(options.port)
+    #app = Application()
+    #app.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(os.environ.get("PORT", 8888))
