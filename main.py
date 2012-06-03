@@ -40,11 +40,13 @@ class MainHandler(tornado.web.RequestHandler):
 
 def main():
     tornado.options.parse_command_line()
-    app = Application()
-    app.listen(options.port)
-    tornado.ioloop.IOLoop.instance().start()
+    #app = Application()
+    #app.listen(options.port)
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(os.environ.get("PORT", 58445))
+
+    #start the serever
+    tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
     main()
