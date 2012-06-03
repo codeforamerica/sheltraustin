@@ -104,7 +104,7 @@ class MapHandler():
 {'latitude': 30.436649500000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Gateway Community Church', 'longitude': -97.762900000000002, 'address': '7104 McNeil Dr, Austin, TX 78729, USA'}, 
 {'latitude': 30.285502000000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Micah 6 Food Pantries', 'longitude': -97.742580000000004, 'address': 'University Presbyterian Church, 2203 San Antonio St, Austin, TX 78705, USA'}, 
 {'latitude': 30.375915899999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'North Austin Christian Church ', 'longitude': -97.710788300000004, 'address': '1734 Rutland Dr, Austin, TX 78758, USA'}, 
-{'latitude': 30.267153, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': 'Y - there is a separate CommUnity Care health Clinic'}, 'name': 'Austin Resource Center for the Homeless (ARCH) - managed by Front Steps ', 'longitude': -97.743060799999995, 'address': 'Heart Smart CPR, 152 Hoot Owl Ln N, Leander, TX 78641, USA'}]}
+{'latitude': 30.267153, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': 'Y - there is a separate CommUnity Care health Clinic'}, 'name': 'Austin Resource Center for the Homeless (ARCH) - managed by Front Steps ', 'longitude': -97.743060799999995, 'address': '500 E 7th St, Austin, TX 78701, USA'}]}
 
 	#### first use the service needs to find all places in Austin that provide those needs
 
@@ -143,7 +143,8 @@ class MapHandler():
 	#### get location of address entered
 
 	def getOwnLocation(self, addr):
-		gmaps = GoogleMaps("AIzaSyDtIpFT7ZCBkJL6wPdwIHRLUqLO-3BWr0E")
+
+		gmaps = GoogleMaps("AIzaSyBJkj3-NuYVzkQ1b3rhSAfLflcF96R8EFQ")#"AIzaSyDtIpFT7ZCBkJL6wPdwIHRLUqLO-3BWr0E")
 
 		try:
 			lat, lng = gmaps.address_to_latlng(addr)
