@@ -1,5 +1,6 @@
 from googlemaps import *
 import simplejson as json
+import os
 
 # have current address and needs
 # use db to get all places serving those needs

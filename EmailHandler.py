@@ -1,6 +1,7 @@
 # Import smtplib for the actual sending function
 import smtplib
 from smtplib import SMTPException
+import os
 
 # Import the email modules we'll need
 from email.mime.text import MIMEText

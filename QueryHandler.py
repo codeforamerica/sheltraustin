@@ -2,6 +2,7 @@ import simplejson, urllib
 from MapHandler import MapHandler
 from SMSHandler import SMSHandler
 from EmailHandler import EmailHandler
+import os
 
 class QueryHandler(object):
 
