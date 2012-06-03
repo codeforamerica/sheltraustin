@@ -44,7 +44,7 @@ def main():
     #app.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
     http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(os.environ.get("PORT", 8888))
+    http_server.listen(os.environ.get("PORT", 80))
 
 if __name__ == "__main__":
     main()
