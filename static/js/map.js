@@ -1,4 +1,10 @@
   var map;
+  var markersArray = [];
+  var directionsDisplay;
+  var directionsService;
+
+  var startData;
+  var endData = {};
 
   function initialize() {
   	var myOptions = {
@@ -9,65 +15,127 @@
         {
           featureType: 'road',
           stylers: [
-            { saturation: 10},
-            {hue: "#00f"}
+            { saturation: 10}
             ]
         }
       ]
   	};
-
+    directionsService = new google.maps.DirectionsService();
+    directionsDisplay = new google.maps.DirectionsRenderer();
     map = new google.maps.Map(document.getElementById('map'), myOptions);
-
-
-
-    /* addListener() method takes object, event, function to call when event occurs */
-    google.maps.event.addListener(map, 'click', function(event) {
-      //placeMarker(event.latLng);
-    });
+    directionsDisplay.setMap(map);
   }
 
   function placeMarkers(data) {
-
-    console.log(data);
-    console.log(data[0]);
     myAddress = data[0]['address'];
     myLat = data[0]['latitude'];
     myLong = data[0]['longitude'];
 
+    path = '../static/img/food.png'
+
     var homeMarker = new google.maps.Marker({
-        icon: 'http://goo.gl/TQpwU',
+        icon: path,
         map: map,
         position: new google.maps.LatLng(myLat, myLong)
     });
+    markersArray.push(homeMarker);
 
-    homeMarker.setAnimation(google.maps.Animation.BOUNCE)
+    var myHtml = "<div> main: "+ myAddress + "</div>";
+    var infowindow = new google.maps.InfoWindow();
+
+    google.maps.event.addListener(homeMarker, 'click', function() {
+        if (infowindow) infowindow.close();
+        infowindow = new google.maps.InfoWindow({content: myHtml});
+        infowindow.open(map,homeMarker);
+    });
 
     var index;
-    for (index=0; index < data.length; index++) {
+    for (index=1; index < data.length; index++) {
+
         displayAddress = data[index]['address'];
         displayLat = data[index]['latitude'];
         displayLong = data[index]['longitude'];
 
-
+        var pos = new google.maps.LatLng(displayLat, displayLong)
         var marker = new google.maps.Marker({
           icon: 'http://goo.gl/TQpwU',
           map: map,
-          position: new google.maps.LatLng(displayLat, displayLong)          
+          position: pos        
         });
+        markersArray.push(marker);
+        google.maps.event.addListener(marker, 'click', findMarkerRoute(data[0], data[index], marker));
 
-        marker.setAnimation(google.maps.Animation.BOUNCE);
     }
 
   }
 
-  /**
-  function placeMarker(location) {
-   var marker = new google.maps.Marker({
-    icon: "http://goo.gl/TQpwU", 
+
+  function findMarkerRoute(startData, endData, marker) {
+
+    var returnValue = function() {
+
+      var myHtml = "<div> main: "+ endData['address'] + "</div>";
+      var infowindow = new google.maps.InfoWindow({content: myHtml});
+      infowindow.open(map,marker)
+
+
+      var travelMode = google.maps.TravelMode.DRIVING;
+      var transportation = endData['transportation'];
+
+      if ( transportation === 'walk') {
+          travelMode = google.maps.TravelMode.WALKING;
+      } else if (transportation === 'bus') {
+
+      }
+
+      var request = {
+        origin: new google.maps.LatLng(startData['latitude'], startData['longitude']),
+        destination: new google.maps.LatLng(endData['latitude'], endData['longitude']),
+        travelMode: travelMode
+      };
+
+      directionsService.route(request, function(result, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+              directionsDisplay.setDirections(result);
+          }
+      })
+
+    };
+
+    return returnValue;
+  }
+
+
+  function deleteOverlays() { 
+    startData = null;
+    endData = {};
+
+    if(markersArray) {
+        for(i in markersArray) {
+            markersArray[i].setMap(null);
+        }
+        markersArray.length = 0;
+    }
+  }
+
+  function placeMarker(location, str) {
+    var path = '../static/img/shelter.png'; 
+    
+    var marker = new google.maps.Marker({
+    icon: path, 
     map: map, 
     position: location
     });
-   marker.setAnimation(google.maps.Animation.BOUNCE);
-  };
-  */
+   
+    var show = 'First name: <input type="text" name="fname" /> Last name: <input type="text" name="lname" />'
+    
+    var infowindow = new google.maps.InfoWindow({content: show}); 
+    
+    google.maps.event.addListener(marker, "click", function(){
+    infowindow.open(map, marker); 
+    });
+    
+       marker.setAnimation(null);
+  }
+
   

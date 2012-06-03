@@ -9,6 +9,7 @@ $(document).ready(function() {
 			type: "GET",
 			data: json(),
 			success: function(data) {
+				deleteOverlays();
 				placeMarkers(data['result']);
 				listDisplay(data);
 			}

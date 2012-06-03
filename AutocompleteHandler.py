@@ -10,8 +10,6 @@ from QueryHandler import QueryHandler
 class AutocompleteHandler(tornado.web.RequestHandler):
 	@tornado.web.asynchronous
 	def get(self):
-
-		print self.request.arguments
 		if not self.request.arguments or self.request.arguments=={}:
 			self.render('index.html')
 			return

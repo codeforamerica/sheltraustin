@@ -121,13 +121,11 @@ class MapHandler():
 		result = {"result":[]}
 
 		for place in all_places:
-			print place
 			if ((query["food"] == "true" and (('Y') in place["properties"]["food"][0:3])) or
 				(query["medical"] == "true" and (('Y') in place["properties"]["med_facility"][0:3] or ('Y') in place["properties"]["med_service"][0:3])) or
 				(query["mental-health"] == "true" and (('Y') in place["properties"]["mental_health"][0:3])) or
 				(query["bed"] == "true" and (('Y') in place["properties"]["shelter"][0:3])) or
 				(query["substance-abuse"] == "true" and (('Y') in place["properties"]["subst_abuse_service"][0:3]))):
-				print "good record"
 				place["transportation"] = query["transportation"]
 				to_return.append(place)
 
