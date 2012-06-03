@@ -15,7 +15,7 @@ var DICT = {"medical facility": df + "mf.jpg",
 	    "private": df + "private.gif", 
 	    "shelter": df + "shelter.png",
 	    "food": df + "food.png", 
-	    "substance abuse aid": df + "saa.gif"}
+	    "substance abuse aid": df + "saa.jpg"}
 
 function initialize() {
   	var myOptions = {
