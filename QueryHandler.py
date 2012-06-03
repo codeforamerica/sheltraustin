@@ -5,7 +5,7 @@ from EmailHandler import EmailHandler
 
 class QueryHandler(object):
 
-	PLACES_API_KEY = 'AIzaSyCRpvPaJ4jxbZOlAY_PJeneYdHuC_cR-yk'
+	PLACES_API_KEY = 'AIzaSyBJkj3-NuYVzkQ1b3rhSAfLflcF96R8EFQ'
 
 
 	@classmethod
