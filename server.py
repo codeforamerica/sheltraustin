@@ -6,6 +6,7 @@ import os.path
 
 from SearchHandler import SearchHandler
 from AutocompleteHandler import AutocompleteHandler
+from InfoHandler import InfoHandler
 from tornado.options import define, options
 
 define("port", default=8888, help="run on the given port", type=int)
@@ -15,7 +16,8 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/", DefaultHandler),
             (r"/find*",AutocompleteHandler),
-            (r"/search*", SearchHandler)
+            (r"/search*", SearchHandler),
+            (r"/info*", InfoHandler)
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),

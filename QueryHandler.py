@@ -1,5 +1,6 @@
 import simplejson, urllib
 from MapHandler import MapHandler
+from SMSHandler import SMSHandler
 
 class QueryHandler(object):
 
@@ -27,3 +28,8 @@ class QueryHandler(object):
 			output['addresses'].append(description)
 		# endfor location
 		return output
+
+	@classmethod
+	def get_sms(self, recipient, msgbody):
+		sh = SMSHandler()
+		return sh.sendSMS(recipient,msgbody)

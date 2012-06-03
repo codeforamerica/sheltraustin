@@ -5,6 +5,7 @@
 
   var startData;
   var endData = {};
+  var lastInfoWindow = null;
 
   function initialize() {
   	var myOptions = {
@@ -74,9 +75,14 @@
 
     var returnValue = function() {
 
-      var myHtml = "<div> main: "+ endData['address'] + "</div>";
+      if (lastInfoWindow) lastInfoWindow.close();
+
+      var myHtml = 'Phone:  <input type=\"text\" id=\"phone-bar\" name=\"phone\" placeholder=\"phone number...\" style=\"width:100px\"/><br/>' + 
+                    'e-mail: <input type=\"text\" id=\"email-bar\" name=\"email\" placeholder=\"e-mail address...\" style=\"width:100px\"/><br/>' + 
+                    '<button type=\"button\" onclick=\"sendPersonalInfo()\">Send</button>';
       var infowindow = new google.maps.InfoWindow({content: myHtml});
       infowindow.open(map,marker)
+      lastInfoWindow = infowindow;
 
 
       var travelMode = google.maps.TravelMode.DRIVING;

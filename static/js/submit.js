@@ -96,10 +96,38 @@ function listDisplay(searchResults) {
 }
 
 
-
 function replaceAddress(address) {
 	var $ab = $('#addressbar');
 	$ab.attr('value', address);
 }
 
+function sendPersonalInfo() {
+	var phonenum = $('#phone-bar').attr('value');
+	var emailaddr = $('#email-bar').attr('value');
+
+	$.ajax({
+		url: '/info',
+		dataType: 'json',
+		type: 'GET',
+		data : {
+			'email': emailaddr,
+			'phone': phonenum,
+			'direction': '3801 tower view court'
+		},
+		success: function(data) {
+			var phoneError = data['phone'];
+			var emailError = data['email'];
+			console.log(phoneError);
+			console.log(emailError);
+
+			if (phoneError['error'] != undefined) {
+				alert('Could not send information to phone with error: ' + phoneError['error']);
+			}
+
+			if (emailError['error'] != undefined) {
+				alert('Could not send information to email with error: ' + emailError['error']);
+			}
+		}
+	})
+}
 
