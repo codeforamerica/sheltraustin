@@ -18,7 +18,7 @@ class QueryHandler(object):
 	def get_addresses(self, json):
 		"""Return the potential autocomplete addresses."""
 		address = json['address']
-		url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=en&sensor=true&key=%s' % (address, self.PLACES_API_KEY)
+		url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=en&components=country:us&sensor=true&key=%s' % (address, self.PLACES_API_KEY)
 		google_results = simplejson.load(urllib.urlopen(url))
 		output = {
 			'addresses': []
