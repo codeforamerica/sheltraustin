@@ -6,7 +6,6 @@ import os.path
 
 from SearchHandler import SearchHandler
 from AutocompleteHandler import AutocompleteHandler
-from DetailsHandler import DetailsHandler
 from tornado.options import define, options
 
 define("port", default=8888, help="run on the given port", type=int)
