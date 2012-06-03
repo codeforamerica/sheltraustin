@@ -11,7 +11,7 @@ $(document).ready(function() {
 			success: function(data) {
 				deleteOverlays();
 				placeMarkers(data['result']);
-				listDisplay(data);
+				listDisplay(data['result']);
 			}
 		});
 		return false;
@@ -84,17 +84,17 @@ function check(id) {
 }
 
 function listDisplay(searchResults) {
-	var selectbox = $('#accordion').html('');
+    var sb = $('#locations-list').html('');
 	var content = "";
 	
-    content += "<h3><a href=\"#\">First header</a></h3>";
-    content += "<div>First content</div>";
-    content += "<h3><a href=\"#\">Second header</a></h3>";
-    content += "<div>Second content</div>";
-
-	selectbox.append(content);
+    content += "<h3>Results</h3>";
+    content += "<ul>";
+    for (var i = 0; i < searchResults.length; i++){
+        content += "<li>" + searchResults[i]["name"] + " --- " + searchResults[i]["address"] + "</li>";
+    }
+    content += "</ul>";
+	sb.append(content);
 }
-
 
 function replaceAddress(address) {
 	var $ab = $('#addressbar');
