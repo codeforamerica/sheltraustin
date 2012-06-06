@@ -1,4 +1,7 @@
-Tornado==2.1.1
-simplejson
-googlemaps
-twilio
+PyJWT==0.1.2
+googlemaps==1.0.2
+httplib2==0.7.4
+simplejson==2.5.2
+tornado==2.1.1
+twilio==3.3.6
+wsgiref==0.1.2
