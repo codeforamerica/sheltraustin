@@ -1,4 +1,5 @@
 from googlemaps import *
+from pymongo import Connection
 import simplejson as json
 import os
 
@@ -10,146 +11,56 @@ import os
 # include in the return JSON the google maps "route to the place"
 
 class MapHandler():
-	all_data = { "all_data" : [{'latitude': 30.267955000000001, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'Y', 'subst_abuse_service': 'N', 'med_facility': 'Y'}, 'name': 'CommUnity Care - ARCH Health Clinic', 'longitude': -97.737620000000007, 'address': '500 E 7th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.259606000000002, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'Y', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'Y'}, 'name': 'Manos De Cristo: Dental Clinic', 'longitude': -97.732517999999999, 'address': '1201 E Cesar Chavez St, Austin, TX 78702, USA'}, 
-{'latitude': 30.2683207, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'Y', 'private': 'N', 'shelter': 'Y', 'subst_abuse_service': 'N', 'med_facility': 'Y'}, 'name': 'Salvation Army', 'longitude': -97.736924400000007, 'address': '501 E 8th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.233862999999999, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Aeschbach and Associates', 'longitude': -97.758165000000005, 'address': '2824 S Congress Ave, Austin, TX 78704, USA'}, 
-{'latitude': 30.345065900000002, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Austin Drug and Alcohol Abuse Program', 'longitude': -97.710374700000003, 'address': 'Church of Pentecost, 7801 N Lamar Blvd # D102, Austin, TX 78752, USA'}, 
-{'latitude': 30.338674399999999, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Austin Recovery Inc', 'longitude': -97.676707899999997, 'address': '8402 Cross Park Dr, Austin, TX 78754, USA'}, 
-{'latitude': 30.338674399999999, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': "Austin Recovery Inc - Women's Program", 'longitude': -97.676707899999997, 'address': '8402 Cross Park Dr, Austin, TX 78754, USA'}, 
-{'latitude': 30.2756422, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Austin/Travis County Integral Care - ATCIC Residential properties', 'longitude': -97.735171199999996, 'address': '403 E 15th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.258762900000001, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Austin/Travis County Integral Care - CARE Program Journey OTP', 'longitude': -97.726608900000002, 'address': '1631 E 2nd St, Austin, TX 78702, USA'}, 
-{'latitude': 30.25751, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Austin/Travis County Integral Care - Child and Family properties', 'longitude': -97.747823999999994, 'address': "Integral Care Children's properties, 105 W Riverside Dr, Austin, TX 78704, USA"}, 
-{'latitude': 30.369487299999999, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Changes Counseling properties', 'longitude': -97.726650199999995, 'address': 'Accident & Rehab Clinic, 8711 Burnet Rd # A16, Austin, TX 78757, USA'}, 
-{'latitude': 30.334695, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Clean Investments Counseling Center', 'longitude': -97.689818000000002, 'address': 'Life Changing Minitries International, 1212 E Anderson Ln, Austin, TX 78752, USA'}, 
-{'latitude': 30.229835000000001, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Developmental Counseling Center Inc', 'longitude': -97.790892999999997, 'address': '2101 W Ben White Blvd, Austin, TX 78704, USA'}, 
-{'latitude': 30.390044, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'La Haciendas Solutions', 'longitude': -97.712445000000002, 'address': '2100 Kramer Ln, Austin, TX 78758, USA'}, 
-{'latitude': 30.3761954, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Maintenance and Recovery properties Inc', 'longitude': -97.686018899999993, 'address': '305 Ferguson Dr, Austin, TX 78753, USA'}, 
-{'latitude': 30.225010000000001, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Maintenance and Recovery properties Inc - South', 'longitude': -97.803529999999995, 'address': '2627 Jones Rd, Austin, TX 78745, USA'}, 
-{'latitude': 30.455245000000001, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Northwest Counseling and Wellness Ctr', 'longitude': -97.795706899999999, 'address': '12335 Hymeadow Dr, Austin, TX 78750, USA'}, 
-{'latitude': 30.244605, 'properties': {'mental_health': 'N', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Phoenix Academy of Austin', 'longitude': -97.756614999999996, 'address': 'Phoenix House, 400 W Live Oak St, Austin, TX 78704, USA'}, 
-{'latitude': 30.496313700000002, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Veterans Administration', 'longitude': -97.680945399999999, 'address': '1500 S Ih 35, Round Rock, TX 78681, USA'}, 
-{'latitude': 30.306041, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Seton Shoal Creek Hospital', 'longitude': -97.748383000000004, 'address': 'Seton Shoal Creek Hospital: Carchedi Lisa R MD, 3501 Mills Ave, Austin, TX 78731, USA'}, 
-{'latitude': 30.305842999999999, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Austin State Hospital', 'longitude': -97.736207100000001, 'address': '4110 Guadalupe St, Austin, TX 78705, USA'}, 
-{'latitude': 30.336068999999998, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Lutheran Soc Srvs of the South, Inc.', 'longitude': -97.669453000000004, 'address': '8305 Cross Park Dr, Austin, TX 78710, USA'}, 
-{'latitude': 30.360574700000001, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'HILL COUNTRY COUNSELING', 'longitude': -97.715613099999999, 'address': '1433 Fairfield Dr, Austin, TX 78758, USA'}, 
-{'latitude': 30.312096499999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Volunteer Healthcare Clinic', 'longitude': -97.742264199999994, 'address': '4215 Medical Pkwy, Austin, TX 78756, USA'}, 
-{'latitude': 30.402934500000001, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care William Cannon', 'longitude': -97.675267500000004, 'address': '10500 N IH 35, Austin, TX 78753, USA'}, 
-{'latitude': 30.175242999999998, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': "Community care University of Texas Children's Wellness Center", 'longitude': -97.622220999999996, 'address': '5301 Ross Rd, Del Valle, TX 78617, USA'}, 
-{'latitude': 30.3635187, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Rundberg', 'longitude': -97.6979896, 'address': '801-833 W Rundberg Ln, Austin, TX 78753, USA'}, 
-{'latitude': 30.252542399999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care properties Department', 'longitude': -97.734545900000001, 'address': '15 Waller St, Austin, TX 78702, USA'}, 
-{'latitude': 30.239539499999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care South Austin', 'longitude': -97.760810899999996, 'address': 'South Austin Neighborhood Center, 2529 S 1st St, Austin, TX 78704, USA'}, 
-{'latitude': 30.2648969, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Rosewood-Zaragosa', 'longitude': -97.710158300000003, 'address': '2802 Webberville Rd, Austin, TX 78702, USA'}, 
-{'latitude': 30.276062, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Right To Sight Clinic At The First United Methodist Church Family Life Center', 'longitude': -97.742783000000003, 'address': '1300 Lavaca St, Austin, TX 78701, USA'}, 
-{'latitude': 30.267153, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Red River', 'longitude': -97.743060799999995, 'address': 'Heart Smart CPR, 152 Hoot Owl Ln N, Leander, TX 78641, USA'}, 
-{'latitude': 30.249758199999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Oak Hill', 'longitude': -97.894009800000006, 'address': '8600 State Highway 71, Austin, TX 78735, USA'}, 
-{'latitude': 30.313778200000002, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Northeast', 'longitude': -97.664190700000006, 'address': 'Community Care Northeast, 7112 Ed Bluestein Blvd, Austin, TX 78723, USA'}, 
-{'latitude': 30.2248871, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Montopolis', 'longitude': -97.703492999999995, 'address': '6301 E Riverside Dr, Austin, TX 78741, USA'}, 
-{'latitude': 30.286525999999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Lifeworks', 'longitude': -97.742464999999996, 'address': '408 W 23rd St, Austin, TX 78705, USA'}, 
-{'latitude': 30.259702000000001, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care East Austin', 'longitude': -97.727476899999999, 'address': 'East Austin Neighborhood Center, 211 Comal St, Austin, TX 78702, USA'}, 
-{'latitude': 30.305188399999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care David Powell', 'longitude': -97.713483199999999, 'address': '4614 Interstate 35 Frontage Rd, Austin, TX 78751, USA'}, 
-{'latitude': 30.267955000000001, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care Austin Resource Center For The Homeless', 'longitude': -97.737620000000007, 'address': '500 E 7th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.227219399999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Ben White Health Clinic', 'longitude': -97.778486000000001, 'address': 'Machen Robert L Dds, 1221 W Ben White Blvd, Austin, TX 78704, USA'}, 
-{'latitude': 30.2599199, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Travis County Healthcare District', 'longitude': -97.732953199999997, 'address': '1111 E Cesar Chavez St, Austin, TX 78702, USA'}, 
-{'latitude': 42.376135400000003, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': '', 'shelter': 'Y', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Safe Place', 'longitude': -71.955223399999994, 'address': 'Safe Place, 285 Main St, Rutland, MA 01543, USA'}, 
-{'latitude': 30.255495499999999, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Austin Stress Clinic', 'longitude': -97.7618188, 'address': '1002-1108 S Lamar Blvd, Austin, TX 78704, USA'}, 
-{'latitude': 35.444530800000003, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': "YWCA Women's Counseling and Resource Center", 'longitude': -97.4866423, 'address': '1983-2227 S I-35 Service Rd, Oklahoma City, OK 73129, USA'}, 
-{'latitude': 30.199120499999999, 'properties': {'mental_health': 'Y', 'med_service': 'Y', 'food': 'Y', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'El Buen\xe2\x80\x99s Wallace Mallory Clinic', 'longitude': -97.802170599999997, 'address': '7000 Woodhue Dr, Austin, TX 78745, USA'}, 
-{'latitude': 30.404841099999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': "People's Community Clinic", 'longitude': -97.675409400000007, 'address': '12520 N IH 35, Austin, TX 78753, USA'}, 
-{'latitude': 30.227219399999999, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Behavioral Health at Ben White Health Clinic', 'longitude': -97.778486000000001, 'address': 'Machen Robert L Dds, 1221 W Ben White Blvd, Austin, TX 78704, USA'}, 
-{'latitude': 30.274405600000001, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Brackenridge Specialty Clinic', 'longitude': -97.733926699999998, 'address': '601 E 15th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.272894999999998, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Blackstock Family Health Center', 'longitude': -97.733711999999997, 'address': '1313 Red River St, Austin, TX 78701, USA'}, 
-{'latitude': 30.267153, 'properties': {'mental_health': 'Y', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Paul Bass Clinic', 'longitude': -97.743060799999995, 'address': 'Heart Smart CPR, 152 Hoot Owl Ln N, Leander, TX 78641, USA'}, 
-{'latitude': 29.7278673, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'Austin Lakes Hospital - Inpatient', 'longitude': -95.646563, 'address': '32, Houston, TX 77082, USA'}, 
-{'latitude': 30.296693699999999, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Austin Lakes Hospital - Outpatient', 'longitude': -97.719537000000003, 'address': 'William E. Mccaleb, MD, 1009 E 40th St, Austin, TX 78751, USA'}, 
-{'latitude': 30.274405600000001, 'properties': {'mental_health': 'Y', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': 'University Medical Center Brackenridge', 'longitude': -97.733926699999998, 'address': '601 E 15th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.298745, 'properties': {'mental_health': 'Y', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': "St. David's Medical Center", 'longitude': -97.7456739, 'address': '900 W 30th St, Austin, TX 78705, USA'}, 
-{'latitude': 30.227244200000001, 'properties': {'mental_health': 'Y', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'Y', 'med_facility': 'N'}, 'name': "St. David's Medical Center South Austin", 'longitude': -97.774368100000004, 'address': '901 W Ben White Blvd, Austin, TX 78704, USA'}, 
-{'latitude': 30.276062, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'N - breakfast ', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'First United Methodist Church and Foundation for the Homeless ', 'longitude': -97.742783000000003, 'address': '1300 Lavaca St, Austin, TX 78701, USA'}, 
-{'latitude': 30.2674056, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Caritas of Austin', 'longitude': -97.737920900000006, 'address': '611 Neches St, Austin, TX 78701, USA'}, 
-{'latitude': 30.268265499999998, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Trinity Center ', 'longitude': -97.7399901, 'address': '304 E 7th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.2683207, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': 'Y', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Salvation Army', 'longitude': -97.736924400000007, 'address': '501 E 8th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.308918800000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': 'Y- dental clinic'}, 'name': 'Manos de Cristo', 'longitude': -97.712749599999995, 'address': '4911 Harmon Ave, Austin, TX 78751, USA'}, 
-{'latitude': 30.217801900000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Abiding Love Lutheran Church', 'longitude': -97.845413899999997, 'address': '7210 Brush Country Rd, Austin, TX 78749, USA'}, 
-{'latitude': 30.296621999999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Alpha Seventh Day Adventist', 'longitude': -97.682717999999994, 'address': 'Alpha Seventh-Day Adventist, 3016 E 51st St, Austin, TX 78723, USA'}, 
-{'latitude': 30.344186000000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Austin First Seveneth Day Adventist Chruch', 'longitude': -97.707926999999998, 'address': 'Austin Adventist Jr Academy, 301 W Anderson Ln, Austin, TX 78752, USA'}, 
-{'latitude': 30.331810999999998, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'St. John Community Center', 'longitude': -97.693098300000003, 'address': '7500-7598 Blessing Ave, Austin, TX 78752, USA'}, 
-{'latitude': 30.1760631, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Capital Area Food Bank', 'longitude': -97.784239200000002, 'address': '8201 S Congress Ave, Austin, TX 78745, USA'}, 
-{'latitude': 30.249256200000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Community of Christ', 'longitude': -97.775845599999997, 'address': '2132 Bluebonnet Ln, Austin, TX 78704, USA'}, 
-{'latitude': 30.448119800000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Dolores Catholic Church', 'longitude': -97.7322068, 'address': '5720 McNeil Dr, Austin, TX 78729, USA'}, 
-{'latitude': 30.312491000000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Eastside Community Connection', 'longitude': -97.693916000000002, 'address': '5810 Berkman Dr, Austin, TX 78723, USA'}, 
-{'latitude': 33.352277999999998, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Hope Lutheran Church', 'longitude': -84.296052900000007, 'address': '4852-4898 Bear Creek Blvd, Hampton, GA 30228, USA'}, 
-{'latitude': 30.302424999999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Hype Park Baptist Church/Church Under the Bridge ', 'longitude': -97.732231999999996, 'address': '3901 Speedway, Austin, TX 78751, USA'}, 
-{'latitude': 30.220492, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'La Iglesia Del Senor', 'longitude': -97.761820999999998, 'address': '209 E Ben White Blvd, Austin, TX 78704, USA'}, 
-{'latitude': 30.353883, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': "Master's Hand", 'longitude': -97.699969899999999, 'address': '202 W Elliott St, Austin, TX 78753, USA'}, 
-{'latitude': 30.254745499999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Melas on Wheels and More H.O.P.E. Food Pantries', 'longitude': -97.706166899999999, 'address': '3227 E 5th St, Austin, TX 78702, USA'}, 
-{'latitude': 30.267005000000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Our Lady of Guadalupe Catholic Church', 'longitude': -97.727554999999995, 'address': '1206 E 9th St, Austin, TX 78702, USA'}, 
-{'latitude': 30.362287999999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Principe de Paz', 'longitude': -97.708208999999997, 'address': '1204 Payton Gin Rd, Austin, TX 78758, USA'}, 
-{'latitude': 30.252694000000002, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'River Road Baptist Church', 'longitude': -97.601757199999994, 'address': '12825-13103 Farm to Market 969, Austin, TX 78724, USA'}, 
-{'latitude': 30.269553200000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Rosewood Avenue Missionary Baptist Church', 'longitude': -97.719566900000004, 'address': '1807 Rosewood Ave, Austin, TX 78702, USA'}, 
-{'latitude': 30.2683207, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': 'Y'}, 'name': 'Salvation Army', 'longitude': -97.736924400000007, 'address': '501 E 8th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.282588499999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': 'Y', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': "Salvation Army Women and Children's Shelter ", 'longitude': -97.671834099999998, 'address': '4413 Tannehill Ln, Austin, TX 78721, USA'}, 
-{'latitude': 30.267153, 'properties': {'mental_health': '-', 'med_service': '-', 'food': '', 'private': 'Y', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'SafePlace', 'longitude': -97.743060799999995, 'address': 'Heart Smart CPR, 152 Hoot Owl Ln N, Leander, TX 78641, USA'}, 
-{'latitude': 30.259935299999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': 'Y', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'Casa Marianella', 'longitude': -97.701123699999997, 'address': '821 Gunter St, Austin, TX 78702, USA'}, 
-{'latitude': 30.267153, 'properties': {'mental_health': '-', 'med_service': '-', 'food': '', 'private': 'Y', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'Posada Esperanza', 'longitude': -97.743060799999995, 'address': 'Heart Smart CPR, 152 Hoot Owl Ln N, Leander, TX 78641, USA'}, 
-{'latitude': 30.267153, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': 'Y', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'Foundation for the Homeless', 'longitude': -97.743060799999995, 'address': 'Heart Smart CPR, 152 Hoot Owl Ln N, Leander, TX 78641, USA'}, 
-{'latitude': 30.228786899999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'Lifeworks', 'longitude': -97.767988399999993, 'address': '3700 S 1st St, Austin, TX 78704, USA'}, 
-{'latitude': 30.2342333, 'properties': {'mental_health': '-', 'med_service': '-', 'food': '-', 'private': 'Y', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'Foundation Communities', 'longitude': -97.764717000000005, 'address': '3036 S 1st St, Austin, TX 78704, USA'}, 
-{'latitude': 30.323559400000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': '-', 'private': 'Y', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'Family Eldercare', 'longitude': -97.7416068, 'address': '2210 Hancock Dr, Austin, TX 78756, USA'}, 
-{'latitude': 30.267153, 'properties': {'mental_health': '-', 'med_service': '-', 'food': '-', 'private': 'Y', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'St. Louise House', 'longitude': -97.743060799999995, 'address': 'Heart Smart CPR, 152 Hoot Owl Ln N, Leander, TX 78641, USA'}, 
-{'latitude': 30.268265499999998, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'Trinity Center ', 'longitude': -97.7399901, 'address': '304 E 7th St, Austin, TX 78701, USA'}, 
-{'latitude': 30.280997200000002, 'properties': {'mental_health': '-', 'med_service': '-', 'food': '-', 'private': 'Y', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': '-'}, 'name': 'Blackland Communtiy Development ', 'longitude': -97.722403900000003, 'address': '2005 Salina St, Austin, TX 78722, USA'},
-{'latitude': 30.333442300000002, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Community care AK Black', 'longitude': -97.698698399999998, 'address': '928 Blackson Ave, Austin, TX 78752, USA'}, 
-{'latitude': 30.283055000000001, 'properties': {'mental_health': 'Y', 'med_service': 'N', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'Capital Area Mental Health', 'longitude': -97.711173000000002, 'address': '2824 Real St, Austin, TX 78722, USA'}, 
-{'latitude': 30.228828499999999, 'properties': {'mental_health': 'N', 'med_service': 'Y', 'food': 'N', 'private': 'N', 'shelter': 'N', 'subst_abuse_service': 'N', 'med_facility': 'N'}, 'name': 'NextCare Urgent Care', 'longitude': -97.8631946, 'address': '6001 W William Cannon Dr, Austin, TX 78749, USA'}, 
-{'latitude': 30.436649500000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Gateway Community Church', 'longitude': -97.762900000000002, 'address': '7104 McNeil Dr, Austin, TX 78729, USA'}, 
-{'latitude': 30.285502000000001, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'Micah 6 Food Pantries', 'longitude': -97.742580000000004, 'address': 'University Presbyterian Church, 2203 San Antonio St, Austin, TX 78705, USA'}, 
-{'latitude': 30.375915899999999, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '-', 'shelter': '-', 'subst_abuse_service': '-', 'med_facility': ''}, 'name': 'North Austin Christian Church ', 'longitude': -97.710788300000004, 'address': '1734 Rutland Dr, Austin, TX 78758, USA'}, 
-{'latitude': 30.267153, 'properties': {'mental_health': '-', 'med_service': '-', 'food': 'Y', 'private': '', 'shelter': 'Y', 'subst_abuse_service': '-', 'med_facility': 'Y - there is a separate CommUnity Care health Clinic'}, 'name': 'Austin Resource Center for the Homeless (ARCH) - managed by Front Steps ', 'longitude': -97.743060799999995, 'address': '500 E 7th St, Austin, TX 78701, USA'}]}
+    connection = Connection()
+    all_documents = connection.austindb.austindb.find()
+    # all_data key holds value that is created by a list comprehension -> make an array out of every doc in all_documents
+    all_data_mongo = { "all_data" : [doc for doc in all_documents] }
 
-	#### first use the service needs to find all places in Austin that provide those needs
+    def clean_place_document(self, doc):
+        doc['_id'] = 'abc' # should be able to mask _id when doing find against mongo!
+        # these (lat, lon) could potentially be fields in the documents in the collection, but this is ok, too
+        doc['latitude'] = doc['loc'][1] 
+        doc['longitude'] = doc['loc'][0] 
+        return doc
+    
+    #### first use the service needs to find all places in Austin that provide those needs
 
-	def getAllServiceProviders(self, needs):
-		# 'needs' is a json query object
-		query = needs
+    def getAllServiceProviders(self, needs):
+        # 'needs' is a json query object
+        query = needs
+        
+        all_places = self.all_data_mongo["all_data"]
+        own_location = self.getOwnLocation(query["address"])
+        if (own_location == {}):
+        	raise Exception("Fail: Couldn't get own location!")
+        
+        to_return = [own_location]
+        result = {"result":[]}
+        
+        for place in all_places:
+            # XXX: this is a bit nuts, refactor!
+            if ((query["food"] == "true" and (('Y') in place["food"][0:3])) or 
+                (query["medical"] == "true" and (('Y') in place["med_facility"][0:3] or 
+                ('Y') in place["med_service"][0:3])) or 
+                (query["mental-health"] == "true" and (('Y') in place["mental_health"][0:3])) or
+                (query["bed"] == "true" and (('Y') in place["shelter"][0:3])) or
+                (query["substance-abuse"] == "true" and (('Y') in place["subst_abuse_service"][0:3]))):
+                place["transportation"] = query["transportation"]
+                to_return.append(self.clean_place_document(place))
 
-		all_places = self.all_data["all_data"]
-		own_location = self.getOwnLocation(query["address"])
-		if (own_location == {}):
-			raise Exception("Fail: Couldn't get own location!")
+        result["result"] = to_return
+        return result
 
-		to_return = [own_location]
-		result = {"result":[]}
+    #### for all the service providers, get distance and route using google maps API using the mode of transport
+    #### sort the service providers and make a JSON
+    #### get location of address entered
 
-		for place in all_places:
-			if ((query["food"] == "true" and (('Y') in place["properties"]["food"][0:3])) or
-				(query["medical"] == "true" and (('Y') in place["properties"]["med_facility"][0:3] or ('Y') in place["properties"]["med_service"][0:3])) or
-				(query["mental-health"] == "true" and (('Y') in place["properties"]["mental_health"][0:3])) or
-				(query["bed"] == "true" and (('Y') in place["properties"]["shelter"][0:3])) or
-				(query["substance-abuse"] == "true" and (('Y') in place["properties"]["subst_abuse_service"][0:3]))):
-				place["transportation"] = query["transportation"]
-				to_return.append(place)
-
-		result["result"] = to_return
-		return result
-
-	#### for all the service providers, get distance and route using google maps API using the mode of transport
-
-	#def getRouteInfoToServiceProviders():
-		# get distance and routes to service providers
-	#	return []
-
-	#### sort the service providers and make a JSON
-
-	#### get location of address entered
-
-	def getOwnLocation(self, addr):
-
-		gmaps = GoogleMaps(os.environ.get("GOOGLE_KEY"))
-
-		try:
-			lat, lng = gmaps.address_to_latlng(addr)
-			actual_address = gmaps.latlng_to_address(lat, lng)
-			return {"latitude" : lat, "longitude" : lng, "name" : "HOME", "address" : actual_address, "properties" : {}}
-		except GoogleMapsError:
-			return {}
+    def getOwnLocation(self, addr):
+        gmaps = GoogleMaps(os.environ.get("GOOGLE_KEY"))
+        
+        try:
+       	    lat, lng = gmaps.address_to_latlng(addr)
+            actual_address = gmaps.latlng_to_address(lat, lng)
+            return {"latitude" : lat, "longitude" : lng, "name" : "HOME", "address" : actual_address, "properties" : {}}
+        except GoogleMapsError:
+	    return {}

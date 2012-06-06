@@ -85,15 +85,14 @@ function initialize() {
 
 function findIcon(endData){
     var address = endData.address; 
-    var name = endData.name; 
-    var properties = endData.properties; 
-    var services = [["food", properties.food],
-		    ["medical facility", properties.med_facility],
-		    ["medical service", properties.med_service],
-		    ["mental health service", properties.mental_health], 
-		    ["private", properties.private ], 
-		    ["shelter", properties.shelter ], 
-		    ["substance abuse aid", properties.subst_abuse_service]
+    var name = endData.title;
+    var services = [["food", endData.food],
+		    ["medical facility", endData.med_facility],
+		    ["medical service", endData.med_service],
+		    ["mental health service", endData.mental_health], 
+		    ["private", endData.private ], 
+		    ["shelter", endData.shelter ], 
+		    ["substance abuse aid", endData.subst_abuse_service]
 		   ]; 
     var str = ''; var dict; var i;   
     
@@ -140,15 +139,14 @@ function findMarkerRoute(startData, endData, marker) {
 	  });
 
 	  var address = endData.address; 
-	  var name = endData.name; 
-	  var properties = endData.properties; 
-	  var services = [["Food", properties.food],
-          ["Medical Facility", properties.med_facility],
-          ["Medical Service", properties.med_service],
-          ["Mental Health Service", properties.mental_health], 
-          ["Private", properties.private ], 
-          ["Shelter", properties.shelter ], 
-          ["Substance Abuse Aid", properties.subst_abuse_service]
+	  var name = endData.title; 
+	  var services = [["Food", endData.food],
+          ["Medical Facility", endData.med_facility],
+          ["Medical Service", endData.med_service],
+          ["Mental Health Service", endData.mental_health], 
+          ["Private", endData.private ], 
+          ["Shelter", endData.shelter ], 
+          ["Substance Abuse Aid", endData.subst_abuse_service]
        ]; 
         var str = ''; var dict; var i;   
 	  

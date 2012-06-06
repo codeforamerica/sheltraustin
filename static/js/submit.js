@@ -90,7 +90,7 @@ function listDisplay(searchResults) {
     content += "<h3>Results</h3>";
     content += "<ul>";
     for (var i = 0; i < searchResults.length; i++){
-        content += "<li>" + searchResults[i]["name"] + " --- " + searchResults[i]["address"] + "</li>";
+        content += "<li>" + searchResults[i]["title"] + " --- " + searchResults[i]["address"] + "</li>";
     }
     content += "</ul>";
 	sb.append(content);
