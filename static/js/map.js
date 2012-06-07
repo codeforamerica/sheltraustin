@@ -86,13 +86,13 @@ function initialize() {
 function findIcon(endData){
     var address = endData.address; 
     var name = endData.title;
-    var services = [["food", endData.food],
-		    ["medical facility", endData.med_facility],
-		    ["medical service", endData.med_service],
-		    ["mental health service", endData.mental_health], 
-		    ["private", endData.private ], 
-		    ["shelter", endData.shelter ], 
-		    ["substance abuse aid", endData.subst_abuse_service]
+    var services = [['food', endData.food],
+		    ['medical facility', endData.med_facility],
+		    ['medical service', endData.med_service],
+		    ['mental health service', endData.mental_health], 
+		    ['private', endData.private ], 
+		    ['shelter', endData.shelter ], 
+		    ['substance abuse aid', endData.subst_abuse_service]
 		   ]; 
     var str = ''; var dict; var i;   
     
