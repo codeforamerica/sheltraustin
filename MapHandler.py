@@ -40,20 +40,18 @@ class MapHandler():
         result = {"result":[]}
        
         # XXX refactor!
-        connection = Connection()
+        connection = Connection(os.environ['MONGOHQ_URL'])
         # XXX if client asks for geospatial limit of results, then we use find with a boundary filter
         lat = own_location['latitude']
         long = own_location['longitude']
-        all_documents = connection.austindb.austindb.find({"loc": {"$within": {"$center": [[long, lat], self.radius_1_mile]}} })
+        all_documents = connection[os.environ['DATABASE_NAME']].austindb.find({"loc": {"$within": {"$center": [[long, lat], self.radius_1_mile]}} })
         # all_data key holds value that is created by a list comprehension -> make an array out of every doc in all_documents
         all_data_mongo = { "all_data" : [doc for doc in all_documents] }
         all_places = all_data_mongo["all_data"] 
  
         for place in all_places:
             # XXX: this is a bit nuts, refactor!
-            if ((query["food"] == "true" and (('Y') in place["food"][0:3])) or 
-                (query["medical"] == "true" and (('Y') in place["med_facility"][0:3] or 
-                ('Y') in place["med_service"][0:3])) or 
+            if ((query["food"] == "true" and (('Y') in place["food"][0:3])) or (query["medical"] == "true" and (('Y') in place["med_facility"][0:3] or ('Y') in place["med_service"][0:3])) or 
                 (query["mental-health"] == "true" and (('Y') in place["mental_health"][0:3])) or
                 (query["bed"] == "true" and (('Y') in place["shelter"][0:3])) or
                 (query["substance-abuse"] == "true" and (('Y') in place["subst_abuse_service"][0:3]))):
