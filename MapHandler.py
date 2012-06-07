@@ -2,6 +2,7 @@ from googlemaps import *
 from pymongo import Connection
 import simplejson as json
 import os
+import math
 
 # have current address and needs
 # use db to get all places serving those needs
@@ -11,14 +12,17 @@ import os
 # include in the return JSON the google maps "route to the place"
 
 class MapHandler():
-    connection = Connection()
-    all_documents = connection.austindb.austindb.find()
-    # all_data key holds value that is created by a list comprehension -> make an array out of every doc in all_documents
-    all_data_mongo = { "all_data" : [doc for doc in all_documents] }
+
+    earth_radius_in_miles = 3959.0
+    radians_to_degrees = 180.0 / math.pi
+    # XXX  always 1 mile for now need to add interface switch to support different values
+    # replace 1 with a number based on what user selects on front page
+    radius_1_mile = (1 / earth_radius_in_miles) * radians_to_degrees
 
     def clean_place_document(self, doc):
-        doc['_id'] = 'abc' # should be able to mask _id when doing find against mongo!
-        # these (lat, lon) could potentially be fields in the documents in the collection, but this is ok, too
+        # (ObjectId afldkjfa;ldkjf) causes json parser to barf later, we change it to 'abc' for now
+        doc['_id'] = 'abc' # XXX should be able to mask _id when doing find against mongo!
+        # XXX these (lat, lon) could potentially be fields in the documents in the collection, but this is ok, too
         doc['latitude'] = doc['loc'][1] 
         doc['longitude'] = doc['loc'][0] 
         return doc
@@ -29,14 +33,22 @@ class MapHandler():
         # 'needs' is a json query object
         query = needs
         
-        all_places = self.all_data_mongo["all_data"]
         own_location = self.getOwnLocation(query["address"])
         if (own_location == {}):
         	raise Exception("Fail: Couldn't get own location!")
-        
         to_return = [own_location]
         result = {"result":[]}
-        
+       
+        # XXX refactor!
+        connection = Connection()
+        # XXX if client asks for geospatial limit of results, then we use find with a boundary filter
+        lat = own_location['latitude']
+        long = own_location['longitude']
+        all_documents = connection.austindb.austindb.find({"loc": {"$within": {"$center": [[long, lat], self.radius_1_mile]}} })
+        # all_data key holds value that is created by a list comprehension -> make an array out of every doc in all_documents
+        all_data_mongo = { "all_data" : [doc for doc in all_documents] }
+        all_places = all_data_mongo["all_data"] 
+ 
         for place in all_places:
             # XXX: this is a bit nuts, refactor!
             if ((query["food"] == "true" and (('Y') in place["food"][0:3])) or 
