@@ -58,8 +58,8 @@ var json = function createJSON() {
 	var bedVal = check("#checkbox-bed");
 	var foodVal = check("#checkbox-food");
 	var medVal = check("#checkbox-medical");
-  	var mentVal = check("#checkbox-mental");
-  	var subVal = check("#checkbox-substance");
+  var mentVal = check("#checkbox-mental");
+  var subVal = check("#checkbox-substance");
 	
 	JSONobj = {
 		"address" : a.val(),
@@ -69,6 +69,7 @@ var json = function createJSON() {
 		"mental-health" : mentVal,
 		"substance-abuse" : subVal,
 		"transportation" : $('input[name=trans]:checked').val()
+		//"distance" : $('input[name=distance]:checked').val()
 	};
 	return JSONobj;
 }
