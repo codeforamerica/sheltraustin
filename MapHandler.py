@@ -12,12 +12,7 @@ import math
 # include in the return JSON the google maps "route to the place"
 
 class MapHandler():
-
-    earth_radius_in_miles = 3959.0
-    radians_to_degrees = 180.0 / math.pi
-    # XXX  always 1 mile for now need to add interface switch to support different values
-    # replace 1 with a number based on what user selects on front page
-    radius_1_mile = (1 / earth_radius_in_miles) * radians_to_degrees
+   
 
     def clean_place_document(self, doc):
         # (ObjectId afldkjfa;ldkjf) causes json parser to barf later, we change it to 'abc' for now
@@ -32,7 +27,13 @@ class MapHandler():
     def getAllServiceProviders(self, needs):
         # 'needs' is a json query object
         query = needs
-        
+
+        earth_radius_in_miles = 3959.0
+        radians_to_degrees = 180.0 / math.pi
+        # XXX  always 1 mile for now need to add interface switch to support different values
+        radius_from_query = (float(query['distance']) / earth_radius_in_miles) * radians_to_degrees
+        #radius_from_query = (1 / earth_radius_in_miles) * radians_to_degrees
+
         own_location = self.getOwnLocation(query["address"])
         if (own_location == {}):
         	raise Exception("Fail: Couldn't get own location!")
@@ -44,7 +45,7 @@ class MapHandler():
         # XXX if client asks for geospatial limit of results, then we use find with a boundary filter
         lat = own_location['latitude']
         long = own_location['longitude']
-        all_documents = connection[os.environ['DATABASE_NAME']].austindb.find({"loc": {"$within": {"$center": [[long, lat], self.radius_1_mile]}} })
+        all_documents = connection[os.environ['DATABASE_NAME']].austindb.find({"loc": {"$within": {"$center": [[long, lat], radius_from_query]}} })
         # all_data key holds value that is created by a list comprehension -> make an array out of every doc in all_documents
         all_data_mongo = { "all_data" : [doc for doc in all_documents] }
         all_places = all_data_mongo["all_data"] 

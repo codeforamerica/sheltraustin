@@ -19,6 +19,8 @@ class SearchHandler(tornado.web.RequestHandler):
 		mental_health = self.request.arguments['mental-health'][0]
 		substance_abuse = self.request.arguments['substance-abuse'][0]
 		transportation = self.request.arguments['transportation'][0]
+		distance = self.request.arguments['distance'][0]
+
 
 		data = {
 			'address': address,
@@ -27,7 +29,8 @@ class SearchHandler(tornado.web.RequestHandler):
 			'medical': medical,
 			'mental-health': mental_health,
 			'substance-abuse': substance_abuse,
-			'transportation': transportation
+			'transportation': transportation,
+			'distance' : distance
 		}
 
 
