@@ -10,7 +10,7 @@ class SMSHandler():
 
 	__acc_sid = (os.environ.get("TWILIO_ID"))
 	__auth_token = (os.environ.get("TWILIO_KEY"))
-	__from_number = "+15128618876"
+	__from_number = (os.environ.get("TWILIO_NUMBER"))
 
 
 	### recipient phone number is a string with the country code in front. e.g. +12345678900 for America
