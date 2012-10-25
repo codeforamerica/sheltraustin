@@ -8,14 +8,12 @@ The original version of this app was created in Node.js and can be found <a href
 
 Table of Contents
 -----------------
-* [Getting started] (#getting-started)
-* [Team] (#team)
+* [Getting started](#getting-started)
+* [Team](#team)
 
 Sheltr Austin is a <a href="http://www.rhok.org/problems/sheltr-project-austin"> RHoK Austin (2012) </a> project.
 
-
-<a name="getting-started"/>
-Getting Started
+<a name="getting-started">Getting Started</a>
 ----
 The project is built in Python using the Tornado server. You can see it in action at <a href="http://austin.sheltr.org/"> which is running on Heroku. 
 
@@ -42,8 +40,7 @@ __from_number = (os.environ.get("TWILIO_NUMBER"))
 
 Each requires creation of the appropriate credentials with each service - Google Places, Twilio. The MongoHQ_URL comes from Heroku, and the SHELTR_PASS is your email password (used to send a location's information to users).
 
-<a name="team"/>
-Team
+<a name="team">Team</a>
 ----
 1. Rishi Bajekal [rishi.bajekal@gmail.com] 
 1. Efe Karakus [efekarakus@gmail.com]
